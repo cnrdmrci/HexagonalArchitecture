@@ -1,7 +1,6 @@
 using Application.Services.Common;
-using Domain.Common;
+using Domain.AggregateModels.PersonModel;
 using Domain.Common.Abstract;
-using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 

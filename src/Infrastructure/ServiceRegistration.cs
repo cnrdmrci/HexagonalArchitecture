@@ -1,7 +1,7 @@
 using System.Reflection;
+using Application.Ports.Repository;
 using Application.Services.Common;
 using Domain.Common.Abstract;
-using Domain.Port.Repository;
 using Infrastructure.Common.MediatRBehaviours;
 using Infrastructure.Persistence.Adapter.Repository;
 using Infrastructure.Persistence.Common;

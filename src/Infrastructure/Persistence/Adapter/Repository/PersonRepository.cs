@@ -1,5 +1,5 @@
-using Domain.Entities;
-using Domain.Port.Repository;
+using Application.Ports.Repository;
+using Domain.AggregateModels.PersonModel;
 using Infrastructure.Persistence.Common;
 using Infrastructure.Persistence.Context;
 

@@ -1,7 +1,7 @@
+using Domain.AggregateModels.PersonModel;
 using Domain.Common.Abstract;
-using Domain.Entities;
 
-namespace Domain.Port.Repository;
+namespace Application.Ports.Repository;
 
 public interface IPersonRepository : IBaseRepository<Person>
 {
