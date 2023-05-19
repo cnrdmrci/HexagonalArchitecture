@@ -44,9 +44,7 @@ public static class ServiceRegistration
     
     private static void AddMediatRRegistration(this IServiceCollection serviceCollection)
     {
-        var assembly = Assembly.GetAssembly(typeof(IDateTime));
-        
-        serviceCollection.AddMediatR(assembly);
+        serviceCollection.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(typeof(IDateTime).GetTypeInfo().Assembly));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(PerformanceBehaviour<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         serviceCollection.AddTransient(typeof(IPipelineBehavior<,>), typeof(UnhandledExceptionBehaviour<,>));

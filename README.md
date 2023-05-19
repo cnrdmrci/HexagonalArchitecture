@@ -28,8 +28,8 @@
 
 ## <a name="usage">Projede Kullanılan Teknolojiler</a>
 
-- .Net Core 6
-- Entity Framework Core 6
+- .Net Core 7
+- Entity Framework Core 7
 - Swagger
 - MediatR
 - API Versioning
