@@ -5,30 +5,44 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Options.ApiVersionOptions;
 using WebApi.Options.SwaggerOptions;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace WebApi;
 
-builder.Services.AddInfrastructureRegistration();
-
-builder.Services.Configure<ApiBehaviorOptions>(options =>
+public class Program
 {
-    options.SuppressModelStateInvalidFilter = true;
-});
+    public static async Task Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers(options =>
-        options.Filters.Add<ApiExceptionFilterAttribute>())
-    .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+        #region Registrations
+        
+        builder.Services.AddInfrastructureRegistration();
+        
+        builder.Services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+        
+        builder.Services.AddControllers(options =>
+                options.Filters.Add<ApiExceptionFilterAttribute>())
+            .AddFluentValidation(x => x.AutomaticValidationEnabled = false);
+        
+        builder.Services.AddApiVersioningRegistration();
 
-builder.Services.AddApiVersioningRegistration();
-builder.Services.AddSwaggerRegistration();
+        builder.Services.AddSwaggerRegistration();
+        
+        #endregion
 
-var app = builder.Build();
+        var app = builder.Build();
 
-app.UseSwaggerConfiguration(builder.Services);
+        app.UseSwaggerConfiguration(builder.Services);
 
-app.UseHttpsRedirection();
+        app.UseHttpsRedirection();
 
-app.UseAuthorization();
+        app.UseAuthorization();
 
-app.MapControllers();
+        app.MapControllers();
 
-app.Run();
+        await app.RunAsync();
+    }
+}
+
