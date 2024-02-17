@@ -5,11 +5,11 @@ using MediatR;
 
 namespace Application.UseCase.CreatePersonCommand;
 
-public class CreatePersonCommand : IRequest<ServiceResult>, IRegister
+public record CreatePersonCommand : IRequest<ServiceResult>, IRegister
 {
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public int Age { get; set; }
+    public string Name { get; init; }
+    public string Surname { get; init; }
+    public int Age { get; init; }
     
     public void Register(TypeAdapterConfig config)
     {

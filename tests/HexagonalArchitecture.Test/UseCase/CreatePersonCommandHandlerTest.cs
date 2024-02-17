@@ -37,7 +37,8 @@ public class CreatePersonCommandHandlerTest
         _mapperMock = new Mock<IMapper>();
         _mediatorMock = new Mock<IMediator>();
         
-        _sut = new CreatePersonCommandHandler(_personRepositoryMock.Object, _mapperMock.Object, _unitOfWorkMock.Object, _mediatorMock.Object);
+        _sut = new CreatePersonCommandHandler(_personRepositoryMock.Object, _unitOfWorkMock.Object, 
+            _mediatorMock.Object, _mapperMock.Object);
     }
     
     [Test]
@@ -56,10 +57,11 @@ public class CreatePersonCommandHandlerTest
 
         //Assert
         _personRepositoryMock.Verify(x => x.Add(person),Times.Once);
-        _mediatorMock.Verify(x => x.Publish(It.IsAny<PersonCreatedDomainEvent>(), CancellationToken.None),Times.Once);
+        _mediatorMock.Verify(x => x.Publish(It.IsAny<PersonCreatedDomainEvent>(), 
+            CancellationToken.None),Times.Once);
         _unitOfWorkMock.Verify(x => x.SaveChangesAsync(),Times.Once);
-        Assert.NotNull(result);
-        Assert.IsTrue(result.Succeeded);
+        Assert.That(result,Is.Not.Null);
+        Assert.That(result.Succeeded, Is.True);
         Assert.That(person.Id, Is.EqualTo(serviceResult?.Data.PersonId));
     }
 }

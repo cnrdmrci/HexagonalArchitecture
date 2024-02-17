@@ -2,8 +2,8 @@ using MediatR;
 
 namespace Application.DomainEvent.Events;
 
-public class PersonCreatedDomainEvent : INotification
+public record PersonCreatedDomainEvent : INotification
 {
-    public string Username { get; set; }
+    public string Username { get; init; }
     
 }

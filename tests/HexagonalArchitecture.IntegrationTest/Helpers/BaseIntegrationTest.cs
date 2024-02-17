@@ -16,8 +16,9 @@ public abstract class BaseIntegrationTest<T> where T : RegistrationBase
     private Fixture _fixture;
     private IServiceProvider _serviceProvider;
     private RegistrationBase _registrationBase = (RegistrationBase)Activator.CreateInstance(typeof(T));
+    protected HttpClient HttpClient { get; private set; }
 
-    [OneTimeSetUp]
+    [SetUp]
     public void OneTimeSetUp()
     {
         
@@ -33,7 +34,12 @@ public abstract class BaseIntegrationTest<T> where T : RegistrationBase
         _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
     }
 
-    protected HttpClient HttpClient { get; private set; }
+    [TearDown]
+    public void TearDown()
+    {
+        HttpClient.Dispose();
+    }
+    
     
     protected TType GetRequiredService<TType>()
     {

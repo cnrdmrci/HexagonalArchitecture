@@ -8,28 +8,19 @@ using MediatR;
 
 namespace Application.UseCase.CreatePersonCommand;
 
-public class CreatePersonCommandHandler  : IRequestHandler<CreatePersonCommand, ServiceResult>
+public class CreatePersonCommandHandler(
+    IPersonRepository personRepository, 
+    IUnitOfWork unitOfWork, 
+    IMediator mediator, 
+    IMapper mapper) : IRequestHandler<CreatePersonCommand, ServiceResult>
 {
-    private readonly IPersonRepository _personRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-
-    public CreatePersonCommandHandler(IPersonRepository personRepository, IMapper mapper, IUnitOfWork unitOfWork, IMediator mediator)
-    {
-        _personRepository = personRepository;
-        _mapper = mapper;
-        _unitOfWork = unitOfWork;
-        _mediator = mediator;
-    }
-    
     public async Task<ServiceResult> Handle(CreatePersonCommand request, CancellationToken cancellationToken)
     {
-        var person = _mapper.Map<Person>(request);
-        _personRepository.Add(person);
+        var person = mapper.Map<Person>(request);
+        personRepository.Add(person);
 
-        await _mediator.Publish(new PersonCreatedDomainEvent() { Username = person.Username }, cancellationToken);
-        await _unitOfWork.SaveChangesAsync();
+        await mediator.Publish(new PersonCreatedDomainEvent { Username = person.Username }, cancellationToken);
+        await unitOfWork.SaveChangesAsync();
 
         return ServiceResult.Success(new CreatePersonCommandViewModel{PersonId = person.Id});
     }

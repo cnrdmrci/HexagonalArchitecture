@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.UseCase.GetPersonQuery;
 
-public class GetPersonQuery : IRequest<ServiceResult>
+public record GetPersonQuery : IRequest<ServiceResult>
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 }

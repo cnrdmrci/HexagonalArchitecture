@@ -3,11 +3,11 @@ using Mapster;
 
 namespace Application.Dtos;
 
-public class PersonDto : IRegister
+public record PersonDto : IRegister
 {
-    public string Name { get; set; }
-    public string Surname { get; set; }
-    public string Username { get; set; }
+    public string Name { get; init; }
+    public string Surname { get; init; }
+    public string Username { get; init; }
     
     public void Register(TypeAdapterConfig config)
     {

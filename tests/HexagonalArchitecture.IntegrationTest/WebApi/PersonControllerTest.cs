@@ -15,10 +15,16 @@ public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
     private ApplicationDbContext _applicationDbContext;
     
     [SetUp]
-    public void SetUp()
+    public void SetUp() 
     {
         _applicationDbContext = GetRequiredService<ApplicationDbContext>();
         ClearDataContext(_applicationDbContext);
+    }
+    
+    [TearDown]
+    public void TearDown()
+    {
+        _applicationDbContext.Dispose();
     }
     
     [Test]
@@ -43,8 +49,8 @@ public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
         
         //Verify
         Assert.That(httpResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.NotNull(response);
-        Assert.IsTrue(response?.Succeeded);
+        Assert.That(response,Is.Not.Null);
+        Assert.That(response?.Succeeded, Is.True);
         Assert.That(person.Name, Is.EqualTo(response?.Data?.PersonDto.Name));
     }
     
@@ -61,8 +67,8 @@ public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
         //Verify
         var person = await _applicationDbContext.Persons.FindAsync(response?.Data?.PersonId ?? 0);
         Assert.That(httpResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-        Assert.NotNull(response);
-        Assert.IsTrue(response?.Succeeded);
+        Assert.That(response,Is.Not.Null);
+        Assert.That(response?.Succeeded, Is.True);
         Assert.That(person?.Id, Is.EqualTo(response?.Data?.PersonId));
 
     }

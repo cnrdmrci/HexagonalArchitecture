@@ -9,8 +9,8 @@ public class DefaultRegistration : RegistrationBase
     protected override void AddExtraServices(IServiceCollection services)
     {
         RemoveService<ApplicationDbContext>(services);
-        services.AddDbContext<ApplicationDbContext>(builder => builder.UseInMemoryDatabase("defaultDatabase"));
-        //ReplaceTransientService<IUserService, FakeUserService>(services);
+        services.AddDbContext<ApplicationDbContext>(builder => 
+            builder.UseInMemoryDatabase("defaultDatabase"));
     }
 
     private void ReplaceScopedService<T, TF>(IServiceCollection services) where T : class where TF : class, T
