@@ -21,10 +21,9 @@ public abstract class BaseIntegrationTest<T> where T : RegistrationBase
     [SetUp]
     public void OneTimeSetUp()
     {
-        
         var webApplicationFactory = new WebApplicationFactory<Program>().WithWebHostBuilder(builder => {
             builder.ConfigureTestServices(services => {
-                _registrationBase.ConfigureServices(services);
+                Task.FromResult(_registrationBase.ConfigureServicesAsync(services));
             });
         });
         HttpClient = webApplicationFactory.CreateDefaultClient();
@@ -35,9 +34,10 @@ public abstract class BaseIntegrationTest<T> where T : RegistrationBase
     }
 
     [TearDown]
-    public void TearDown()
+    public async Task TearDown()
     {
         HttpClient.Dispose();
+        await _registrationBase.StopAsync();
     }
     
     

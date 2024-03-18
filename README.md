@@ -36,6 +36,7 @@
 - Exception Handling
 - Fluent Validation
 - Mapster
+- Testcontainers
 
 ## <a name="what-is-hexagonal-arch">Hexagonal Architecture Nedir?</a>
 

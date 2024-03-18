@@ -9,7 +9,7 @@ using MapsterMapper;
 
 namespace HexagonalArchitecture.IntegrationTest.WebApi;
 
-public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
+public class PersonControllerTest : BaseIntegrationTest<TestContainerRegistration>
 {
     private const string Route = "api/v1/persons";
     private ApplicationDbContext _applicationDbContext;
@@ -18,7 +18,6 @@ public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
     public void SetUp() 
     {
         _applicationDbContext = GetRequiredService<ApplicationDbContext>();
-        ClearDataContext(_applicationDbContext);
     }
     
     [TearDown]
@@ -35,7 +34,7 @@ public class PersonControllerTest : BaseIntegrationTest<DefaultRegistration>
         var mapper = GetRequiredService<IMapper>();
         var person = mapper.Map<Person>(createPersonCommand);
 
-        await _applicationDbContext.Persons.AddAsync(person);
+        _applicationDbContext.Persons.Add(person);
         await _applicationDbContext.SaveChangesAsync();
         
         // var httpRequestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
