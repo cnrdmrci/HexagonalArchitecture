@@ -9,6 +9,7 @@ using Domain.Common.Abstract;
 using Domain.Common.Models;
 using MapsterMapper;
 using MediatR;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
@@ -19,6 +20,7 @@ public class CreatePersonCommandHandlerTest
 {
     private Fixture _fixture;
 
+    private Mock<ILogger<CreatePersonCommandHandler>> _loggerMock;
     private Mock<IPersonRepository> _personRepositoryMock;
     private Mock<IUnitOfWork> _unitOfWorkMock;
     private Mock<IMapper> _mapperMock;
@@ -32,13 +34,14 @@ public class CreatePersonCommandHandlerTest
         _fixture = new Fixture();
         _fixture.Behaviors.Add(new OmitOnRecursionBehavior());
         
+        _loggerMock = new Mock<ILogger<CreatePersonCommandHandler>>();
         _personRepositoryMock = new Mock<IPersonRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _mapperMock = new Mock<IMapper>();
         _mediatorMock = new Mock<IMediator>();
         
-        _sut = new CreatePersonCommandHandler(_personRepositoryMock.Object, _unitOfWorkMock.Object, 
-            _mediatorMock.Object, _mapperMock.Object);
+        _sut = new CreatePersonCommandHandler(_loggerMock.Object, _personRepositoryMock.Object, 
+            _unitOfWorkMock.Object, _mediatorMock.Object, _mapperMock.Object);
     }
     
     [Test]

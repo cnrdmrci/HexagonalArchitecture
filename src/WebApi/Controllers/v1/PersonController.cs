@@ -1,4 +1,5 @@
 using Application.UseCase.CreatePersonCommand;
+using Application.UseCase.ExceptionTestQuery;
 using Application.UseCase.GetPersonQuery;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Controllers.Common;
@@ -19,5 +20,11 @@ public class PersonController : BaseApiController
     public async Task<IActionResult> CreatePerson(CreatePersonCommand command)
     {
         return Ok(await Mediator.Send(command));
+    }
+    
+    [HttpGet, Route("exception-test")]
+    public async Task<IActionResult> ExceptionTest()
+    {
+        return Ok(await Mediator.Send(new GetExceptionTestQuery()));
     }
 }

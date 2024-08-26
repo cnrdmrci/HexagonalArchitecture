@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Common.Filters;
+using Infrastructure.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Options.ApiVersionOptions;
 using WebApi.Options.SwaggerOptions;
@@ -15,7 +16,7 @@ public class Program
 
         #region Registrations
         
-        builder.Services.AddInfrastructureRegistration();
+        builder.AddInfrastructureRegistration();
         
         builder.Services.Configure<ApiBehaviorOptions>(options =>
         {
@@ -33,7 +34,11 @@ public class Program
         #endregion
 
         var app = builder.Build();
+        
+        // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
+        app.UseMiddleware<ResponseTraceIdMiddleware>();
+        
         app.UseSwaggerConfiguration(builder.Services);
 
         app.UseHttpsRedirection();

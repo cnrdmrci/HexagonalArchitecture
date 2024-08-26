@@ -10,6 +10,7 @@ using Infrastructure.Services;
 using Mapster;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,13 +18,14 @@ namespace Infrastructure;
 
 public static class ServiceRegistration
 {
-    public static void AddInfrastructureRegistration(this IServiceCollection serviceCollection)
+    public static void AddInfrastructureRegistration(this WebApplicationBuilder builder)
     {
-        serviceCollection.AddEntityFrameworkRegistration();
-        serviceCollection.AddMediatRRegistration();
-        serviceCollection.AddRepositoriesRegistration();
-        serviceCollection.AddServicesRegistration();
-        serviceCollection.AddMapsterRegistration();
+        builder.Services.AddEntityFrameworkRegistration();
+        builder.Services.AddMediatRRegistration();
+        builder.Services.AddRepositoriesRegistration();
+        builder.Services.AddServicesRegistration();
+        builder.Services.AddMapsterRegistration();
+        builder.AddOpenTelemetryRegistration();
     }
     
     private static void AddEntityFrameworkRegistration(this IServiceCollection serviceCollection)
